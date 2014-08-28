@@ -5,6 +5,13 @@
 /src/.classpath
 /src/.project
 /src/*.mpr.lock
+/test/deployment
+/test/releases
+/test/.settings
+/test/*.launch
+/test/.classpath
+/test/.project
+/test/*.mpr.lock
 .mendix-cache
 proxies
 
@@ -15,3 +22,6 @@ proxies
 /*.mpr.left*
 /*.mpr.right*
 *.lock
+test/javasource/com/mendix/core/Core.java
+test/javasource/system/UserActionsRegistrar.java
+test/javasource/system/actions/VerifyPassword.java
