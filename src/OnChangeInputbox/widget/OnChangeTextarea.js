@@ -1,15 +1,18 @@
 dojo.provide("OnChangeInputbox.widget.OnChangeTextarea");
 
 dojo.declare('OnChangeInputbox.widget.OnChangeTextarea', mxui.widget._WidgetBase, {
-	//DECLARATION
-	addons: [dijit._Templated],
-    inputargs: {
-		attr 			: '',
-		onchangemf		: '',
-		onleavemf 		: '',
-		delay			: 0,
-		chartreshold	: 0
-    },
+	/*
+	attr 			: '',
+	onchangemf		: '',
+	onleavemf 		: '',
+	delay			: 0,
+	chartreshold	: 0,
+	placeholder 	: '',
+	maxLength 		: 0,
+	rows 			: 0,
+	textTooLongMsg 	: '',
+	counterMsg 		: ''
+	*/
 	
 	//CACHES
 	_hasStarted 		: false,
@@ -39,8 +42,8 @@ dojo.declare('OnChangeInputbox.widget.OnChangeTextarea', mxui.widget._WidgetBase
 		this.domNode.appendChild(taNode);
 		var textarea = new mxui.widget.TextArea({
 			attributePath : this.attr,
-			placeholder : 'My placeholder',
-			maxLength : 0,
+			placeholder : this.placeholder,
+			maxLength : this.maxLength,
 			rows : 0,
 			textTooLongMsg : '',
 			counterMsg : ''

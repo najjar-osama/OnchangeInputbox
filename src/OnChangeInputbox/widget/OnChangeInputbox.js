@@ -1,23 +1,6 @@
-/**
-	OnChange Inputbox
-	========================
-
-	@file      : OnChangeInputbox.js
-	@version   : 2.0
-	@author    : Robert van 't Hof
-	@date      : 28-9-2011
-	@copyright : Mendix
-	@license   : Please contact our sales department.
-
-	Documentation
-	=============
-	
-*/
 dojo.provide("OnChangeInputbox.widget.OnChangeInputbox");
 
-mendix.widget.declare('OnChangeInputbox.widget.OnChangeInputbox', {
-	//DECLARATION
-	addons: [dijit._Templated],
+dojo.declare('OnChangeInputbox.widget.OnChangeInputbox', mxui.widget._WidgetBase, {
     inputargs: {
 		name 			: '',
 		onchangemf		: '',

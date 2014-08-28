@@ -50,5 +50,31 @@
             <category>Behavior</category>
             <description>Minimum character treshold before the on change microflow is triggered.</description> 
         </property>
+
+        <property key="placeholder" type="string" required="false">
+            <caption>Placeholder text</caption>
+            <category>General</category>
+            <description></description> 
+        </property>
+        <property key="maxLength" type="integer" required="true" defaultValue="0">
+            <caption>Maximum length</caption>
+            <category>General</category>
+            <description></description> 
+        </property>
+        <property key="rows" type="integer" required="true" defaultValue="0">
+            <caption>Number of lines</caption>
+            <category>General</category>
+            <description></description> 
+        </property>
+        <property key="textTooLongMsg" type="string" required="false">
+            <caption>Text too long message</caption>
+            <category>General</category>
+            <description></description> 
+        </property>
+        <property key="counterMsg" type="integer" required="true" defaultValue="0">
+            <caption>Counter message</caption>
+            <category>General</category>
+            <description></description> 
+        </property>
     </properties>
 </widget>
