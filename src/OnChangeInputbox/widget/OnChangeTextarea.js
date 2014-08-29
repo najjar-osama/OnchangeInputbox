@@ -38,6 +38,7 @@ dojo.declare('OnChangeInputbox.widget.OnChangeTextarea', mxui.widget._WidgetBase
 	},
 
 	initInputbox : function(obj) {
+		dojo.empty(this.domNode);
 		var taNode = mxui.dom.div();
 		this.domNode.appendChild(taNode);
 		var textarea = new mxui.widget.TextArea({
@@ -51,7 +52,6 @@ dojo.declare('OnChangeInputbox.widget.OnChangeTextarea', mxui.widget._WidgetBase
 		textarea.startup();
 		textarea.update(obj, null);
 		this.connect(textarea.domNode, "onkeyup", dojo.hitch(this, this.eventOnChange));
-		this.connect(textarea.domNode, "onblur", dojo.hitch(this, this.onLeaveMicroflow));
 		this.connect(textarea.domNode, "onfocus", dojo.hitch(this, this.eventInputFocus));
 	},
 	eventInputFocus : function () {
@@ -83,10 +83,6 @@ dojo.declare('OnChangeInputbox.widget.OnChangeTextarea', mxui.widget._WidgetBase
 	onChangeMicroflow : function () {
 		this.delay_timer = null
 		this.executeMicroflow(this.onchangemf);
-	},
-	onLeaveMicroflow : function () {
-		this.delay_timer = null
-        this.executeMicroflow(this.onleavemf);
 	},
 	executeMicroflow : function (mf) {
 		if (mf && this.objId > 0) {

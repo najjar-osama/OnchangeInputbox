@@ -1,14 +1,16 @@
 dojo.provide("OnChangeInputbox.widget.OnChangeInputbox");
 
-dojo.declare('OnChangeInputbox.widget.OnChangeInputbox', mxui.widget._WidgetBase, {
-    inputargs: {
+dojo.declare('OnChangeInputbox.widget.OnChangeInputbox', [mxui.widget._WidgetBase, dijit._TemplatedMixin], {
+    
+    /*inputargs: {
 		name 			: '',
 		onchangemf		: '',
 		onleavemf 		: '',
 		delay			: 0,
 		chartreshold	: 0
     },
-	templateString 		: '<div dojoAttachPoint="divNode" class="divNode"><input dojoAttachPoint="inputBox" class="mendixFormView_textBox"></div>',
+    */
+	templateString 		: dojo.cache("OnChangeInputbox", "widget/ui/OnChangeInputbox.html"),
 	
 	//CACHES
 	divNode 			: '',

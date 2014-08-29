@@ -28,12 +28,6 @@
                 <attributeType name="String"/>
             </attributeTypes>
         </property>
-        <property key="onleavemf" type="microflow" required="false">
-            <caption>On leave microflow</caption>
-            <category>Data source</category>
-            <description>Optional: The microflow to execute on leave.</description> 
-            <returnType type="Void"/>
-        </property>
 		<property key="onchangemf" type="microflow" required="false">
             <caption>On change microflow</caption>
             <category>Data source</category>
