@@ -1,4 +1,4 @@
-# Markdown for Mendix
+# OnChange InputBox/TextArea
 
 This widget creates an inputbox or textarea that lets you run a microflow everytime a user changes the content, one key press at a time. It features a delay and a minimum character treshold to prevent excessive microflow calls.
 
