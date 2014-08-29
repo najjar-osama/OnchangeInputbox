@@ -10,15 +10,23 @@ For more information on contributing to this repository visit [Contributing to a
 
 #### Inputbox
 Attribute: The attribute that is linked to the inputbox.
+
 On change microflow: The microflow that is triggered with each change in the inputbox.
+
 On leave microflow: *Optional* - The microflow that is triggered when the inputbox loses focus.
+
 Delay: *Optional* - The delay in milliseconds before the onchange microflow is triggered.
+
 Character Treshold: *Optional* - The minimum amount of characters required for the onchange microflow to be triggered.
 
 #### Textarea
 Attribute: The attribute that is linked to the inputbox.
+
 On change microflow: The microflow that is triggered with each change in the inputbox.
+
 Delay: *Optional* - The delay in milliseconds before the onchange microflow is triggered.
+
 Character Treshold: *Optional* - The minimum amount of characters required for the onchange microflow to be triggered.
+
 
 The attributes under *General* are exactly the same as those for a normal TextArea.
