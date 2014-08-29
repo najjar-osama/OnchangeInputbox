@@ -21,51 +21,65 @@ dojo.declare('OnChangeInputbox.widget.OnChangeTextarea', mxui.widget._WidgetBase
 	handle				: '',
 	delay_timer			: '',
 	currValue 			: '',
-	objId				: 0,
+	objId				: null,
+	textarea 			: null,
+	_textLocked			: false,
 	
 	startup : function () {
 		if (this._hasStarted)
 			return;
 
 		this._hasStarted = true;
-		this.actLoaded();
-	},
 
-	update : function(obj, callback) {
-		this.initInputbox(obj);
-		this.objId = obj.getGuid();
-		callback && callback();
-	},
-
-	initInputbox : function(obj) {
-		dojo.empty(this.domNode);
 		var taNode = mxui.dom.div();
 		this.domNode.appendChild(taNode);
-		var textarea = new mxui.widget.TextArea({
-			attributePath : this.attr,
+		this.textarea = new mxui.widget.TextArea({
+			attributePath : this.entity+"/"+this.attr,
 			placeholder : this.placeholder,
 			maxLength : this.maxLength,
 			rows : 0,
 			textTooLongMsg : '',
 			counterMsg : ''
 		}, taNode);
-		textarea.startup();
-		textarea.update(obj, null);
-		this.connect(textarea.domNode, "onkeyup", dojo.hitch(this, this.eventOnChange));
-		this.connect(textarea.domNode, "onfocus", dojo.hitch(this, this.eventInputFocus));
+		this.textarea.startup();
+
+		var self = this;
+		this.textarea._setValueAttr = function () {
+			if (!self._textLocked)
+				this.editNode.value = arguments[0];
+
+			this.resize();
+		};
+
+		this.connect(this.textarea.domNode, "onkeyup", dojo.hitch(this, this.eventOnChange));
+		this.connect(this.textarea.domNode, "onfocus", dojo.hitch(this, this.eventInputFocus));
+
+		this.actLoaded();
+	},
+
+	update : function(obj, callback) {
+		this.obj = obj;
+		this.textarea.update(obj, callback);
 	},
 	eventInputFocus : function () {
 		dojo.addClass(this.inputBox, "MxClient_formFocus");
 	},
 	eventOnChange : function() {
-		// CHECK TRESHOLD HERE.
-		if (this.chartreshold > 0) {
-			if (this.inputBox.value.length > this.chartreshold)
-				this.eventCheckDelay();
-			else
-				clearTimeout(this.delay_timer);
-		} else
-			this.eventCheckDelay();
+		this._textLocked = true;
+		this.obj.set(this.attr, this.textarea.editNode.value);
+		mx.data.save({
+			mxobj : this.obj,
+			callback : dojo.hitch(this, function () {
+				// CHECK TRESHOLD HERE.
+				if (this.chartreshold > 0) {
+					if (this.textarea.editNode.value.length > this.chartreshold)
+						this.eventCheckDelay();
+					else
+						clearTimeout(this.delay_timer);
+				} else
+					this.eventCheckDelay();
+			})
+		});
 	},
 	eventCheckDelay : function () {
 		if (this.delay > 0) {
@@ -85,14 +99,17 @@ dojo.declare('OnChangeInputbox.widget.OnChangeTextarea', mxui.widget._WidgetBase
 		this.executeMicroflow(this.onchangemf);
 	},
 	executeMicroflow : function (mf) {
-		if (mf && this.objId > 0) {
+		if (mf && this.obj) {
             mx.processor.xasAction({
                 error       : function() {
                     logger.error("OnChangeInputbox.widget.OnChangeTextarea.triggerMicroFlow: XAS error executing microflow")
                 },
                 actionname  : mf,
                 applyto     : 'selection',
-                guids       : [this.objId]
+                callback : dojo.hitch(this, function () {
+                	this._textLocked = false;
+                }),
+                guids       : [this.obj.getGuid()]
             });
 		}
 	},

@@ -20,6 +20,11 @@
 	T4QgP+8GAHyJg9Cg4LMbAAAAAElFTkSuQmCC
     </icon>
     <properties>
+        <property key="entity" type="entity" required="true">
+            <caption>Entity</caption>
+            <category>Data source</category>
+            <description>The entity of the attribute to display.</description> 
+        </property>
         <property key="attr" type="attribute" required="true">
             <caption>Attribute</caption>
             <category>Data source</category>
