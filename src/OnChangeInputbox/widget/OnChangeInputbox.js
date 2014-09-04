@@ -13,51 +13,64 @@ dojo.declare('OnChangeInputbox.widget.OnChangeInputbox', [mxui.widget._WidgetBas
 	templateString 		: dojo.cache("OnChangeInputbox", "widget/ui/OnChangeInputbox.html"),
 	
 	//CACHES
+	_hasStarted 		: false,
+	subHandle			: null,
 	divNode 			: '',
 	inputBox 			: '',
 	handle				: '',
 	delay_timer			: '',
 	currValue 			: '',
-	objId				: 0,
+	obj					: null,
 	
-	postCreate : function(){
-		this.initInputbox();
-		this.actRendered();
-	},
-	applyContext : function(context, callback){
-		if (context)
-			this.objId = context.getActiveGUID();
-		else
-			logger.warn(this.id + ".applyContext received empty context");
-		callback && callback();
-	},
-	initInputbox : function() {
-		this.inputBox.value = this.currValue;
+	startup : function(){
+		if (this._hasStarted)
+			return;
+
+		this._hasStarted = true;
+
 		this.connect(this.inputBox, "onkeyup", dojo.hitch(this, this.eventOnChange));
 		this.connect(this.inputBox, "onblur", dojo.hitch(this, this.onLeaveMicroflow));
 		this.connect(this.inputBox, "onfocus", dojo.hitch(this, this.eventInputFocus));
+
+		this.actLoaded();
+	},
+	update : function(obj, callback){
+		this.obj = obj;
+		if (this.subHandle) {
+			this.unsubscribe(this.subHandle);
+		}
+		this.subHandle = this.subscribe({
+			guid : obj.getGuid(),
+			attr : this.name,
+			callback : dojo.hitch(this, function (obj) {
+				this.changeInputBox();
+			})
+		});
+
+		this.changeInputBox();
+		callback && callback();
+	},
+	changeInputBox : function () {
+		this.inputBox.value = this.obj.get(this.name);
 	},
 	eventInputFocus : function () {
 		dojo.addClass(this.inputBox, "MxClient_formFocus");
 	},
-	_getValueAttr : function () {
-		return this.inputBox.value;
-	},
-	_setValueAttr : function (value) {
-		this.inputBox.value = value || '';
-	},
-	onChange : function () {
-	},
 	eventOnChange : function() {
-		this.onChange();
-		// CHECK TRESHOLD HERE.
-		if (this.chartreshold > 0) {
-			if (this.inputBox.value.length > this.chartreshold)
-				this.eventCheckDelay();
-			else
-				clearTimeout(this.delay_timer);
-		} else
-			this.eventCheckDelay();
+		this.obj.set(this.name, this.inputBox.value);
+		mx.data.save({
+			mxobj : this.obj,
+			callback : dojo.hitch(this, function () {
+				// CHECK TRESHOLD HERE.
+				if (this.chartreshold > 0) {
+					if (this.inputBox.value.length > this.chartreshold)
+						this.eventCheckDelay();
+					else
+						clearTimeout(this.delay_timer);
+				} else
+					this.eventCheckDelay();
+			})
+		});
 	},
 	eventCheckDelay : function () {
 		if (this.delay > 0) {
@@ -73,22 +86,22 @@ dojo.declare('OnChangeInputbox.widget.OnChangeInputbox', [mxui.widget._WidgetBas
 		
 	},
 	onChangeMicroflow : function () {
-		this.delay_timer = null
+		this.delay_timer = null;
 		this.executeMicroflow(this.onchangemf);
 	},
 	onLeaveMicroflow : function () {
-		this.delay_timer = null
+		this.delay_timer = null;
         this.executeMicroflow(this.onleavemf);
 	},
 	executeMicroflow : function (mf) {
-		if (mf && this.objId > 0) {
+		if (mf && this.obj) {
             mx.processor.xasAction({
                 error       : function() {
                     logger.error("OnChangeInputbox.widget.OnChangeInputbox.triggerMicroFlow: XAS error executing microflow")
                 },
                 actionname  : mf,
                 applyto     : 'selection',
-                guids       : [this.objId]
+                guids       : [this.obj.getGuid()]
             });
 		}
 	},
