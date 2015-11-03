@@ -8,3 +8,5 @@ test/.project
 .idea/
 .vscode/
 node_modules/
+Gruntfile.js
+dist/
