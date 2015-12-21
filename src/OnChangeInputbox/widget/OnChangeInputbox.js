@@ -57,20 +57,22 @@ dojo.declare('OnChangeInputbox.widget.OnChangeInputbox', [mxui.widget._WidgetBas
 		dojo.addClass(this.inputBox, "MxClient_formFocus");
 	},
 	eventOnChange : function() {
-		this.obj.set(this.name, this.inputBox.value);
-		mx.data.save({
-			mxobj : this.obj,
-			callback : dojo.hitch(this, function () {
-				// CHECK TRESHOLD HERE.
-				if (this.chartreshold > 0) {
-					if (this.inputBox.value.length > this.chartreshold)
-						this.eventCheckDelay();
-					else
-						clearTimeout(this.delay_timer);
-				} else
-					this.eventCheckDelay();
-			})
-		});
+        if (this.obj.get(this.name) !== this.inputBox.value) {
+            this.obj.set(this.name, this.inputBox.value);
+            mx.data.save({
+                mxobj : this.obj,
+                callback : dojo.hitch(this, function () {
+                    // CHECK TRESHOLD HERE.
+                    if (this.chartreshold > 0) {
+                        if (this.inputBox.value.length > this.chartreshold)
+                            this.eventCheckDelay();
+                        else
+                            clearTimeout(this.delay_timer);
+                    } else
+                        this.eventCheckDelay();
+                })
+            });
+        }
 	},
 	eventCheckDelay : function () {
 		if (this.delay > 0) {
