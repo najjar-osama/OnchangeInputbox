@@ -9,4 +9,3 @@ test/.project
 .vscode/
 node_modules/
 Gruntfile.js
-dist/
