@@ -1,10 +1,9 @@
 {
   "name": "OnChangeInputbox",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "This inputbox widget supports the firing of a microflow for every keystroke. This is great for example with live previews.",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.5",
     "grunt-contrib-clean": "^0.6.0",
@@ -18,7 +17,10 @@
     "semver": "^5.1.0",
     "node-mendix-modeler-path": "https://github.com/JelteMX/node-mendix-modeler-path/archive/v1.0.0.tar.gz"
   },
-  "repository": {"type":"git","url":"http://github.com/mendix/OnChangeInputbox"},
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/mendix/OnChangeInputbox"
+  },
   "engines": {
     "node": ">=0.12.0"
   },
