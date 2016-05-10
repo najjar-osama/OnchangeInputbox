@@ -25,7 +25,7 @@
   "generatorVersion": "1.3.3",
   "paths": {
     "testProjectFolder": "./test/",
-    "testProjectFileName": "Test.mpr"
+    "testProjectFileName": "[AppStore] Onchange Inputbox.mpr"
   },
   "scripts": {
     "test": "grunt test"
