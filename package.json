@@ -1,10 +1,9 @@
 {
   "name": "OnChangeInputbox",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "This inputbox widget supports the firing of a microflow for every keystroke. This is great for example with live previews.",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
