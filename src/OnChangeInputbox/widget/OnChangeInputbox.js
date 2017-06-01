@@ -39,15 +39,18 @@ define([
             if (this.subHandle) {
                 this.unsubscribe(this.subHandle);
             }
-            this.subHandle = this.subscribe({
-                guid : obj.getGuid(),
-                attr : this.name,
-                callback : dojoLang.hitch(this, function (obj) {
-                    this.changeInputBox();
-                })
-            });
+            if (this.obj) {
+              // in some cases update may be called with a null obj
+              this.subHandle = this.subscribe({
+                  guid : obj.getGuid(),
+                  attr : this.name,
+                  callback : dojoLang.hitch(this, function (obj) {
+                      this.changeInputBox();
+                  })
+              });
 
-            this.changeInputBox();
+              this.changeInputBox();
+            }
 
             if (callback) {
                 callback();
