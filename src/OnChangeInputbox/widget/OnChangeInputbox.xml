@@ -50,6 +50,11 @@
             <category>Behavior</category>
             <description>Minimum character treshold before the on change microflow is triggered.</description>
         </property>
+        <property key="showaspassword" type="boolean" defaultValue="false">
+            <caption>Show as password</caption>
+            <category>General</category>
+            <description>Whether to display the inputbox as password field.</description>
+        </property>
         <property key="placeholder" type="string" required="false">
             <caption>Placeholder text</caption>
             <category>General</category>

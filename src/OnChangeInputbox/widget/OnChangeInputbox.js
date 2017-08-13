@@ -28,6 +28,10 @@ define([
                 domProp.set(this.inputBox, "placeholder", this.placeholder);
             }
 
+            if (this.showaspassword) {
+                domProp.set(this.inputBox, "type", "password");
+            }
+
             this.connect(this.inputBox, "onkeyup", dojoLang.hitch(this, this.eventOnChange));
             this.connect(this.inputBox, "onblur", dojoLang.hitch(this, this.onLeaveMicroflow));
             this.connect(this.inputBox, "onfocus", dojoLang.hitch(this, this.eventInputFocus));
