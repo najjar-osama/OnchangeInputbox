@@ -1,7 +1,7 @@
 define([
     "dojo/_base/declare", "mxui/widget/_WidgetBase",
     "mxui/dom", "dojo/dom", "dojo/query", "dojo/dom-prop", "dojo/dom-geometry", "dojo/dom-class", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/array", "dojo/_base/lang"
-], function(declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, dojoLang) {
+], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, dojoLang) {
     "use strict";
 
     return declare("OnChangeInputbox.widget.OnChangeTextarea", [_WidgetBase], {
@@ -13,17 +13,20 @@ define([
         delay_timer: "",
         currValue: "",
         objId: null,
+        onChangeEvent: "callMicroflow" | "callNanoflow",
+        microflow: "",
+        nanoflow: null,
         textarea: null,
         _textLocked: false,
 
-        startup: function() {
+        startup: function () {
             if (this._hasStarted) {
                 return;
             }
 
             this._hasStarted = true;
 
-            var taNode = mxui.dom.div();
+            var taNode = mxui.dom.create("div", {});
             this.domNode.appendChild(taNode);
             this.textarea = new mxui.widget.TextArea({
                 attributePath: this.entity + "/" + this.attr,
@@ -36,7 +39,7 @@ define([
             this.textarea.startup();
 
             var self = this;
-            this.textarea._setValueAttr = function() {
+            this.textarea._setValueAttr = function () {
                 if (!self._textLocked) {
                     this.editNode.value = arguments[0];
                 }
@@ -49,22 +52,22 @@ define([
             this.actLoaded();
         },
 
-        update: function(obj, callback) {
+        update: function (obj, callback) {
             this.obj = obj;
             this.textarea.update(obj, callback);
         },
 
-        eventInputFocus: function() {
-            domClass.add(this.inputBox, "MxClient_formFocus");
+        eventInputFocus: function () {
+            domClass.add(this.domNode, "MxClient_formFocus");
         },
 
-        eventOnChange: function() {
-            if (this.obj.get(this.name) !== this.inputBox.value) {
+        eventOnChange: function () {
+            if (this.obj.get(this.attr) !== this.inputBox.value) {
                 this._textLocked = true;
                 this.obj.set(this.attr, this.textarea.editNode.value);
-                mx.data.save({
+                mx.data.commit({
                     mxobj: this.obj,
-                    callback: dojoLang.hitch(this, function() {
+                    callback: dojoLang.hitch(this, function () {
                         // CHECK TRESHOLD HERE.
                         if (this.chartreshold > 0) {
                             if (this.textarea.editNode.value.length > this.chartreshold) {
@@ -80,40 +83,56 @@ define([
             }
         },
 
-        eventCheckDelay: function() {
+        eventCheckDelay: function () {
             if (this.delay > 0) {
                 if (this.delay_timer) {
                     clearTimeout(this.delay_timer);
-                    this.delay_timer = setTimeout(dojoLang.hitch(this, this.onChangeMicroflow), this.delay); // in milliseconds, seconds * 1000 !
+                    this.delay_timer = setTimeout(dojoLang.hitch(this, this.onChangeAction), this.delay); // in milliseconds, seconds * 1000 !
                 } else {
-                    this.delay_timer = setTimeout(dojoLang.hitch(this, this.onChangeMicroflow), this.delay); // in milliseconds, seconds * 1000 !
+                    this.delay_timer = setTimeout(dojoLang.hitch(this, this.onChangeAction), this.delay); // in milliseconds, seconds * 1000 !
                 }
             } else {
-                this.onChangeMicroflow();
+                this.onChangeAction();
             }
         },
 
-        onChangeMicroflow: function() {
+        onChangeAction: function () {
             this.delay_timer = null;
-            this.executeMicroflow(this.onchangemf);
+
+            if (this.onChangeEvent === "callNanoflow" && this.nanoflow.nanoflow && this.mxcontext) {
+                this._executeNanoflow(this.nanoflow)
+            }
+            else if(this.onChangeEvent === "callMicroflow" && this.microflow) {
+                this._executeMicroflow(this.microflow);
+            }
         },
 
-        executeMicroflow: function(mf) {
+        _executeNanoflow: function(nanoflow) {
+            window.mx.data.callNanoflow({
+                nanoflow: nanoflow,
+                origin: this.mxform,
+                context: this.mxcontext,
+                callback: function() {},
+                error: function (error) {
+                    mx.ui.error("An error occurred while executing the on nanoflow: " + error.message);
+                }
+            });
+        },
+
+        _executeMicroflow: function (mf) {
             if (mf && this.obj) {
                 mx.data.action({
-                    store: {
-                        caller: this.mxform
-                    },
+                    origin: this.mxform,
                     params: {
                         actionname: mf,
                         applyto: "selection",
                         guids: [this.obj.getGuid()]
                     },
-                    callback: dojoLang.hitch(this, function() {
+                    callback: dojoLang.hitch(this, function () {
                         this._textLocked = false;
                     }),
-                    error: function() {
-                        logger.error("OnChangeInputbox.widget.OnChangeTextarea.triggerMicroFlow: XAS error executing microflow");
+                    error: function () {
+                        mx.ui.error("OnChangeInputbox.widget.OnChangeTextarea.triggerMicroFlow: XAS error executing microflow");
                     }
                 });
             }

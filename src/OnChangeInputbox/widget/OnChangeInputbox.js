@@ -18,6 +18,13 @@ define([
         currValue: "",
         obj: null,
 
+        onChangeEvent:"callMicroflow" | "callNanoflow",
+        onChangeMicroflow:"",
+        onChangeNanoflow:null,
+        onLeaveEvent:"callMicroflow" | "callNanoflow",
+        onLeaveMicroflow:"",
+        onLeaveNanoflow:null,
+
         startup: function() {
             if (this._hasStarted) {
                 return;
@@ -33,7 +40,7 @@ define([
             }
 
             this.connect(this.inputBox, "onkeyup", dojoLang.hitch(this, this.eventOnChange));
-            this.connect(this.inputBox, "onblur", dojoLang.hitch(this, this.onLeaveMicroflow));
+            this.connect(this.inputBox, "onblur", dojoLang.hitch(this, this.onLeaveAction));
             this.connect(this.inputBox, "onfocus", dojoLang.hitch(this, this.eventInputFocus));
 
             this.actLoaded();
@@ -74,7 +81,7 @@ define([
         eventOnChange: function() {
             if (this.obj.get(this.name) !== this.inputBox.value) {
                 this.obj.set(this.name, this.inputBox.value);
-                mx.data.save({
+                mx.data.commit({
                     mxobj: this.obj,
                     callback: dojoLang.hitch(this, function() {
                         // CHECK TRESHOLD HERE.
@@ -97,36 +104,56 @@ define([
                 if (this.delay_timer) {
                     clearTimeout(this.delay_timer);
                 }
-                this.delay_timer = setTimeout(dojoLang.hitch(this, this.onChangeMicroflow), this.delay); // in milliseconds, seconds * 1000 !
+                this.delay_timer = setTimeout(dojoLang.hitch(this, this.onChangeAction), this.delay); // in milliseconds, seconds * 1000 !
             } else {
-                this.onChangeMicroflow();
+                this.onChangeAction();
             }
         },
 
-        onChangeMicroflow: function() {
+        onChangeAction: function () {
             this.delay_timer = null;
-            this.executeMicroflow(this.onchangemf);
+            if (this.onChangeEvent === "callMicroflow" && this.onChangeMicroflow) {
+                this._executeMicroflow(this.onChangeMicroflow);
+            } else if (this.onChangeEvent === "callNanoflow" && this.onChangeNanoflow && this.mxcontext) {
+                this._executeNanoflow(this.onChangeNanoflow);
+            }
         },
 
-        onLeaveMicroflow: function() {
+        onLeaveAction: function () {
             this.delay_timer = null;
-            this.executeMicroflow(this.onleavemf);
+            if (this.onLeaveEvent === "callMicroflow" && this.onLeaveMicroflow) {
+                this._executeMicroflow(this.onLeaveMicroflow);
+            } else if (this.onLeaveEvent === "callNanoflow" && this.onLeaveNanoflow && this.mxcontext) {
+                this._executeNanoflow(this.onLeaveNanoflow);
+            }
         },
 
-        executeMicroflow: function(mf) {
-            if (mf && this.obj) {
+        _executeNanoflow: function(nanoflow){
+            window.mx.data.callNanoflow({
+                nanoflow: nanoflow,
+                origin: this.mxform,
+                context: this.mxcontext,
+                callback: function() {},
+                error: function (error) {
+                    mx.ui.error("An error occurred while executing the on nanoflow: " + error.message);
+                }
+            });
+        },
+
+        _executeMicroflow: function(microflow) {
+            if (microflow && this.obj) {
                 mx.data.action({
                     store: {
                         caller: this.mxform
                     },
                     params: {
-                        actionname: mf,
+                        actionname: microflow,
                         applyto: "selection",
                         guids: [this.obj.getGuid()]
                     },
                     callback: function() {},
                     error: function() {
-                        logger.error("OnChangeInputbox.widget.OnChangeInputbox.triggerMicroFlow: XAS error executing microflow");
+                        mx.ui.error("OnChangeInputbox.widget.OnChangeInputbox.triggerMicroFlow: XAS error executing microflow");
                     }
                 });
             }
