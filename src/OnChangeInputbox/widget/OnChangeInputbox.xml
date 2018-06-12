@@ -29,7 +29,7 @@
             </attributeTypes>
         </property>
         <property key="onChangeEvent" type="enumeration" defaultValue="callMicroflow">
-            <caption>OnChange event</caption>
+            <caption>On change event</caption>
             <category>Events</category>
             <description/>
             <enumerationValues>
@@ -40,17 +40,17 @@
         <property key="onChangeMicroflow" type="microflow" required="false">
             <caption>On change microflow</caption>
             <category>Events</category>
-            <description>The microflow to execute on each change</description>
+            <description>The microflow to execute whenever input text changes</description>
             <returnType type="Void"/>
         </property>
         <property key="onChangeNanoflow" type="nanoflow" required="false">
             <caption>On change nanoflow</caption>
             <category>Events</category>
-            <description>The nanoflow to execute on each change</description>
+            <description>The nanoflow to execute whenever input text changes</description>
             <returnType type="Void"/>
         </property>
         <property key="onLeaveEvent" type="enumeration" defaultValue="callMicroflow">
-            <caption>OnLeave event</caption>
+            <caption>On leave event</caption>
             <category>Events</category>
             <description/>
             <enumerationValues>
@@ -73,12 +73,12 @@
         <property key="delay" type="integer" required="true" defaultValue="0">
             <caption>Delay</caption>
             <category>Behavior</category>
-            <description>Delay before first on change microflow is triggered in milliseconds</description>
+            <description>Delay before first on change microflow/nanoflow is triggered in milliseconds</description>
         </property>
         <property key="chartreshold" type="integer" required="true" defaultValue="0">
-            <caption>Character treshold</caption>
+            <caption>Character threshold</caption>
             <category>Behavior</category>
-            <description>Minimum character treshold before the on change microflow is triggered</description>
+            <description>Minimum character threshold before the on change microflow/nanoflow is triggered</description>
         </property>
         <property key="showaspassword" type="boolean" defaultValue="false">
             <caption>Show as password</caption>

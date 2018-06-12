@@ -48,6 +48,7 @@ define([
 
         update: function(obj, callback) {
             this.obj = obj;
+
             if (this.subHandle) {
                 this.unsubscribe(this.subHandle);
                 this.subHandle = null;
@@ -114,7 +115,7 @@ define([
             this.delay_timer = null;
             if (this.onChangeEvent === "callMicroflow" && this.onChangeMicroflow) {
                 this._executeMicroflow(this.onChangeMicroflow);
-            } else if (this.onChangeEvent === "callNanoflow" && this.onChangeNanoflow && this.mxcontext) {
+            } else if (this.onChangeEvent === "callNanoflow" && this.onChangeNanoflow.nanoflow && this.mxcontext) {
                 this._executeNanoflow(this.onChangeNanoflow);
             }
         },
@@ -123,7 +124,7 @@ define([
             this.delay_timer = null;
             if (this.onLeaveEvent === "callMicroflow" && this.onLeaveMicroflow) {
                 this._executeMicroflow(this.onLeaveMicroflow);
-            } else if (this.onLeaveEvent === "callNanoflow" && this.onLeaveNanoflow && this.mxcontext) {
+            } else if (this.onLeaveEvent === "callNanoflow" && this.onLeaveNanoflow.nanoflow && this.mxcontext) {
                 this._executeNanoflow(this.onLeaveNanoflow);
             }
         },
@@ -143,9 +144,7 @@ define([
         _executeMicroflow: function(microflow) {
             if (microflow && this.obj) {
                 mx.data.action({
-                    store: {
-                        caller: this.mxform
-                    },
+                    origin: this.mxform,
                     params: {
                         actionname: microflow,
                         applyto: "selection",
