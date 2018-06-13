@@ -32,8 +32,8 @@ define([
                 attributePath: this.entity + "/" + this.attr,
                 placeholder: this.placeholder,
                 maxLength: this.maxLength,
-                rows: 0,
-                textTooLongMsg: "",
+                rows: this.rows,
+                textTooLongMsg: this.textTooLongMsg,
                 counterMsg: ""
             }, taNode);
             this.textarea.startup();
@@ -65,21 +65,15 @@ define([
             if (this.obj.get(this.attr) !== this.inputBox.value) {
                 this._textLocked = true;
                 this.obj.set(this.attr, this.textarea.editNode.value);
-                mx.data.commit({
-                    mxobj: this.obj,
-                    callback: dojoLang.hitch(this, function () {
-                        // CHECK TRESHOLD HERE.
-                        if (this.chartreshold > 0) {
-                            if (this.textarea.editNode.value.length > this.chartreshold) {
-                                this.eventCheckDelay();
-                            } else {
-                                clearTimeout(this.delay_timer);
-                            }
-                        } else {
-                            this.eventCheckDelay();
-                        }
-                    })
-                });
+                if (this.chartreshold > 0) {
+                    if (this.textarea.editNode.value.length > this.chartreshold) {
+                        this.eventCheckDelay();
+                    } else {
+                        clearTimeout(this.delay_timer);
+                    }
+                } else {
+                    this.eventCheckDelay();
+                }
             }
         },
 
