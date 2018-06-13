@@ -98,6 +98,8 @@ define([
             }
             else if(this.onChangeEvent === "callMicroflow" && this.microflow) {
                 this._executeMicroflow(this.microflow);
+            } else {
+                mx.ui.error("No action specified for " + this.onChangeEvent)
             }
         },
 

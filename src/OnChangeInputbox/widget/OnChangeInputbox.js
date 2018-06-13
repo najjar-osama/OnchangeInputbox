@@ -111,6 +111,8 @@ define([
                 this._executeMicroflow(this.onChangeMicroflow);
             } else if (this.onChangeEvent === "callNanoflow" && this.onChangeNanoflow.nanoflow && this.mxcontext) {
                 this._executeNanoflow(this.onChangeNanoflow);
+            } else {
+                mx.ui.error("No action specified for " + this.onChangeEvent)
             }
         },
 
@@ -120,6 +122,8 @@ define([
                 this._executeMicroflow(this.onLeaveMicroflow);
             } else if (this.onLeaveEvent === "callNanoflow" && this.onLeaveNanoflow.nanoflow && this.mxcontext) {
                 this._executeNanoflow(this.onLeaveNanoflow);
+            } else {
+                mx.ui.error("No action specified for " +  this.onLeaveEvent)
             }
         },
 
