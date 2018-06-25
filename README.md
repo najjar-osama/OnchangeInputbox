@@ -2,9 +2,6 @@
 
 This widget creates an inputbox or textarea that lets you run a microflow or nanoflow every time a user changes the content, one key press at a time. It features a delay and a minimum character threshold to prevent excessive microflow or nanoflow calls.
 
-## Dependencies
-* Mendix 7.15.1
-
 ## Contributing
 For more information on contributing to this repository visit [Contributing to a GitHub repository](https://world.mendix.com/display/howto50/Contributing+to+a+GitHub+repository)!
 
@@ -28,9 +25,9 @@ Character Threshold: *Optional* - The minimum amount of characters required for 
 #### Textarea
 Attribute: The attribute that is linked to the inputbox.
 
-On change microflow: The microflow that is triggered whenever text in the inputbox is changed.
+On change microflow: The microflow that is triggered whenever text in the textarea is changed.
 
-On change nanoflow: The nanoflow that is triggered whenever text in the inputbox is changed.
+On change nanoflow: The nanoflow that is triggered whenever text in the textarea is changed.
 
 Delay: *Optional* - The delay in milliseconds before the on change microflow or nanoflow is triggered.
 

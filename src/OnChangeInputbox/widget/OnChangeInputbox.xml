@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="OnChangeInputbox.widget.OnChangeInputbox" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>OnChange Inputbox</name>
-    <description>Shows an inputbox with an onchange microflow</description>
+    <description>Shows an inputbox with an onchange microflow or nanoflow</description>
     <icon>
 	iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAFo9M/3AAAAGXRFWHRTb2Z0d2Fy
 	ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAl1JREFUeNpi/P//PwMIMJ9jtf0vwPCp
@@ -28,11 +28,12 @@
                 <attributeType name="String"/>
             </attributeTypes>
         </property>
-        <property key="onChangeEvent" type="enumeration" defaultValue="callMicroflow">
+        <property key="onChangeEvent" type="enumeration" defaultValue="doNothing">
             <caption>On change event</caption>
             <category>Events</category>
             <description/>
             <enumerationValues>
+                <enumerationValue key="doNothing">Do nothing</enumerationValue>
                 <enumerationValue key="callMicroflow">Call a microflow</enumerationValue>
                 <enumerationValue key="callNanoflow">Call a nanoflow</enumerationValue>
             </enumerationValues>
@@ -49,11 +50,12 @@
             <description>The nanoflow to execute whenever input text changes</description>
             <returnType type="Void"/>
         </property>
-        <property key="onLeaveEvent" type="enumeration" defaultValue="callMicroflow">
+        <property key="onLeaveEvent" type="enumeration" defaultValue="doNothing">
             <caption>On leave event</caption>
             <category>Events</category>
             <description/>
             <enumerationValues>
+                <enumerationValue key="doNothing">Do nothing</enumerationValue>
                 <enumerationValue key="callMicroflow">Call a microflow</enumerationValue>
                 <enumerationValue key="callNanoflow">Call a nanoflow</enumerationValue>
             </enumerationValues>

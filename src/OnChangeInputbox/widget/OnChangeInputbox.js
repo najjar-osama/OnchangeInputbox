@@ -18,10 +18,10 @@ define([
         currValue: "",
         obj: null,
 
-        onChangeEvent:"callMicroflow" | "callNanoflow",
+        onChangeEvent: "",
         onChangeMicroflow:"",
         onChangeNanoflow:null,
-        onLeaveEvent:"callMicroflow" | "callNanoflow",
+        onLeaveEvent: "",
         onLeaveMicroflow:"",
         onLeaveNanoflow:null,
 
@@ -111,6 +111,8 @@ define([
                 this._executeMicroflow(this.onChangeMicroflow);
             } else if (this.onChangeEvent === "callNanoflow" && this.onChangeNanoflow.nanoflow && this.mxcontext) {
                 this._executeNanoflow(this.onChangeNanoflow);
+            } else if(this.onChangeEvent === "doNothing") {
+                return;
             } else {
                 mx.ui.error("No action specified for " + this.onChangeEvent)
             }
@@ -122,6 +124,8 @@ define([
                 this._executeMicroflow(this.onLeaveMicroflow);
             } else if (this.onLeaveEvent === "callNanoflow" && this.onLeaveNanoflow.nanoflow && this.mxcontext) {
                 this._executeNanoflow(this.onLeaveNanoflow);
+            } else if(this.onLeaveEvent === "doNothing") {
+                return;
             } else {
                 mx.ui.error("No action specified for " +  this.onLeaveEvent)
             }

@@ -13,7 +13,7 @@ define([
         delay_timer: "",
         currValue: "",
         objId: null,
-        onChangeEvent: "callMicroflow" | "callNanoflow",
+        onChangeEvent: " ",
         microflow: "",
         nanoflow: null,
         textarea: null,

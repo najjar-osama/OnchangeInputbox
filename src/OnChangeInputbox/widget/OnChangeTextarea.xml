@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="OnChangeInputbox.widget.OnChangeTextarea" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>OnChange Textarea</name>
-    <description>Shows a textarea with an onchange microflow</description>
+    <description>Shows a textarea with an onchange microflow or nanoflow</description>
     <icon>
 	iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAFo9M/3AAAAGXRFWHRTb2Z0d2Fy
 	ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAl1JREFUeNpi/P//PwMIMJ9jtf0vwPCp
